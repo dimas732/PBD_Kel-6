@@ -1,0 +1,124 @@
+--create database
+
+CREATE DATABASE lovely_bride;
+
+--table categories
+
+CREATE TABLE public.categories (
+	id serial4 NOT NULL,
+	ctg_name varchar NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT categories_pkey PRIMARY KEY (id)
+);
+
+--table customers
+CREATE TABLE public.customers (
+	id serial4 NOT NULL,
+	cust_code varchar(10) GENERATED ALWAYS AS ((('CUST'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	first_name varchar NULL,
+	last_name varchar NULL,
+	phone varchar NULL,
+	address varchar NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT customers_pkey PRIMARY KEY (id)
+);
+
+--table type
+CREATE TABLE public."type" (
+	id serial4 NOT NULL,
+	"name" varchar NOT NULL,
+	CONSTRAINT type_pkey PRIMARY KEY (id)
+);
+
+--table employees
+CREATE TABLE public.employees (
+	id int4 DEFAULT nextval('empoloyees_id_seq'::regclass) NOT NULL,
+	emp_code varchar(10) GENERATED ALWAYS AS ((('EMP'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	first_name varchar NOT NULL,
+	last_name varchar NOT NULL,
+	phone varchar NOT NULL,
+	address varchar NOT NULL,
+	"position" varchar NOT NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT empoloyees_pkey PRIMARY KEY (id)
+);
+
+--table suppliers
+CREATE TABLE public.suppliers (
+	id serial4 NOT NULL,
+	sup_code varchar(10) GENERATED ALWAYS AS ((('SUP'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	"name" varchar NOT NULL,
+	phone varchar NOT NULL,
+	address varchar NOT NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT suppliers_pkey PRIMARY KEY (id)
+);
+
+--table items
+CREATE TABLE public.items (
+	id serial4 NOT NULL,
+	item_code varchar(10) GENERATED ALWAYS AS ((('BRG'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	"name" varchar NOT NULL,
+	stock int4 DEFAULT 1 NOT NULL,
+	price int4 NOT NULL,
+	description varchar NULL,
+	type_id int4 NOT NULL,
+	category_id int4 NOT NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT items_pkey PRIMARY KEY (id),
+	CONSTRAINT items_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id),
+	CONSTRAINT items_type_id_fkey FOREIGN KEY (type_id) REFERENCES public."type"(id)
+);
+
+--table rents
+CREATE TABLE public.rents (
+	id serial4 NOT NULL,
+	rent_code varchar(10) GENERATED ALWAYS AS ((('RT'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	rent_date date NOT NULL,
+	cust_id int4 NOT NULL,
+	emp_id int4 NOT NULL,
+	return_date date NOT NULL,
+	status public.rent_status DEFAULT 'Draft'::rent_status NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT rents_pkey PRIMARY KEY (id),
+	CONSTRAINT rents_cust_id_fkey FOREIGN KEY (cust_id) REFERENCES public.customers(id),
+	CONSTRAINT rents_emp_id_fkey FOREIGN KEY (emp_id) REFERENCES public.employees(id)
+);
+
+--table return
+CREATE TABLE public."returns" (
+	id serial4 NOT NULL,
+	puchase_code varchar(10) GENERATED ALWAYS AS ((('PUR'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	rent_id int4 NOT NULL,
+	actual_return timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	cust_id int4 NOT NULL,
+	emp_id int4 NOT NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT returns_pkey PRIMARY KEY (id),
+	CONSTRAINT returns_cust_id_fkey FOREIGN KEY (cust_id) REFERENCES public.customers(id),
+	CONSTRAINT returns_emp_id_fkey FOREIGN KEY (emp_id) REFERENCES public.employees(id),
+	CONSTRAINT returns_rent_id_fkey FOREIGN KEY (rent_id) REFERENCES public.rents(id)
+);
+
+--table puchases
+CREATE TABLE public.purchases (
+	id serial4 NOT NULL,
+	puchase_code varchar(10) GENERATED ALWAYS AS ((('PUR'::text || lpad(id::text, 3, '0'::text)))) STORED NULL,
+	purchase_date date NOT NULL,
+	price int4 NOT NULL,
+	supplier_id int4 NOT NULL,
+	emp_id int4 NOT NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	CONSTRAINT purchases_pkey PRIMARY KEY (id),
+	CONSTRAINT purchases_emp_id_fkey FOREIGN KEY (emp_id) REFERENCES public.employees(id),
+	CONSTRAINT purchases_supplier_id_fkey FOREIGN KEY (supplier_id) REFERENCES public.suppliers(id)
+);
+
