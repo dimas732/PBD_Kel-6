@@ -1,0 +1,34 @@
+-- 1. Membuat tabel suplier
+CREATE TABLE suplier (
+    id_suplier SERIAL PRIMARY KEY,
+    no_suplier VARCHAR(15) NOT NULL UNIQUE, -- nomor telepon suplier
+    suplier_name VARCHAR(100) NOT NULL
+);
+
+-- 2. Menambahkan 25 data suplier (nomor telepon acak)
+INSERT INTO suplier (no_suplier, suplier_name) VALUES
+('081234567890', 'PT Sumber Makmur Abadi'),
+('081298765432', 'CV Mitra Jaya Sentosa'),
+('081345678901', 'PT Andalan Nusantara'),
+('082112223333', 'CV Karya Bersama'),
+('081377788899', 'PT Maju Jaya Lestari'),
+('081266655544', 'PT Prima Sejahtera'),
+('082144455566', 'CV Cahaya Mandiri'),
+('081355566677', 'PT Mega Teknik Global'),
+('081299988877', 'CV Berkah Abadi'),
+('081322233344', 'PT Bintang Terang'),
+('082133344455', 'PT Surya Mandiri'),
+('081311122233', 'CV Alam Sentosa'),
+('081377799900', 'PT Harmoni Sukses Makmur'),
+('082155566677', 'CV Multi Karya Utama'),
+('081233344455', 'PT Global Niaga Lestari'),
+('081299977788', 'CV Inti Persada'),
+('082199988800', 'PT Sinar Harapan'),
+('081388899900', 'CV Bumi Perkasa'),
+('082122233344', 'PT Indah Jaya Group'),
+('081255566688', 'CV Mitra Sejati'),
+('082188877766', 'PT Artha Mandiri Utama'),
+('081377733322', 'CV Citra Kencana'),
+('082166655544', 'PT Dwi Putra Makmur'),
+('081244455599', 'CV Samudra Teknik'),
+('082199977755', 'PT Tunas Baru Lestari');
