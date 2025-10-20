@@ -1,5 +1,5 @@
 
-INSERT INTO item_busana_pengantin (name, stock, price, description, type_id, category_id) VALUES
+INSERT INTO items (name, stock, price, description, type_id, category_id) VALUES
 ('Gaun Putih Premium 357', 2, 7202817, 'Busana pengantin tipe internasional dengan kualitas terbaik.', 3, 1),
 ('Gaun Eropa Eksklusif 630', 3, 1019664, 'Busana pengantin tipe modern dengan kualitas terbaik.', 1, 10),
 ('Gaun Brokat Cantik 246', 19, 9089290, 'Busana pengantin tipe tradisional dengan kualitas terbaik.', 3, 10),
