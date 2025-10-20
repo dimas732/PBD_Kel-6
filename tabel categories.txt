@@ -1,0 +1,20 @@
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    ctg_name VARCHAR(150) NOT NULL
+);
+
+INSERT INTO categories (ctg_name) VALUES
+('Busana Pengantin Wanita Modern'),
+('Busana Pengantin Pria Modern'),
+('Busana Pengantin Wanita Adat'),
+('Busana Pengantin Pria Adat'),
+('Busana Keluarga Pengantin'),
+('Busana Bridesmaid'),
+('Busana Groomsmen'),
+('Aksesoris Pengantin'),
+('Sepatu Pengantin'),
+('Perhiasan Pengantin');
+
+
+
