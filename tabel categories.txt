@@ -1,5 +1,4 @@
 
-
 INSERT INTO categories (ctg_name) VALUES
 ('Busana Pengantin Wanita Modern'),
 ('Busana Pengantin Pria Modern'),
