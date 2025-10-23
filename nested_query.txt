@@ -159,4 +159,30 @@ GROUP BY i.id, i.name
 ORDER BY total_disewa DESC
 LIMIT 1;
 
+--14. invoice dari pelanggan tertentu
+SELECT 
+    r.rent_code,
+    r.rent_date,
+    i.name as rent_item,
+    dr.unit_price,
+    dr.qty,
+    dr.subtotal,
+    SUM(dr.subtotal) OVER (PARTITION BY r.id) AS total_invoice
+FROM rents r
+JOIN customers c ON r.cust_id = c.id
+JOIN employees e ON r.emp_id = e.id
+JOIN detail_rent dr ON r.id = dr.rent_id
+JOIN items i ON dr.item_id = i.id
+WHERE c.first_name = 'Xenia' AND c.last_name = 'Nugroho'
+ORDER BY r.id, i.name;
+
+--15. kondisi barang yang rusak dan kotor
+SELECT 
+    item_code,
+    name AS item_name,
+    status
+FROM items
+where status = 'Kotor' and 'Rusak'
+ORDER BY name, status;
+
 

@@ -1,16 +1,17 @@
 import random
 from datetime import datetime, timedelta
 
+# status
+item_status = ['Baik', 'Rusak', 'Kotor']
+
 # File output
-with open("detail_rent_data.sql", "w") as f:
-    for i in range(1, 16):
-        rent_id = random.randint(10, 19)
-        item_id = random.randint(64, 73)
-        qty = random.randint(1, 5)
+with open("item_data.sql", "w") as f:
+    for i in range(1, 10):
+        status = random.choices(item_status, weights = [0.6, 0.2, 0.2])
 
         f.write(
-            f"INSERT INTO public.detail_rent (rent_id, item_id, qty,) "
-            f"VALUES ({rent_id}, {item_id}, {qty}, "
+            f"INSERT INTO public.items (status) "
+            f"VALUES {status};\n"
         )
 
 print('✅ File detail_rent_data.sql berhasil dibuat!')

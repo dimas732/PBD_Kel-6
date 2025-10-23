@@ -1,0 +1,10 @@
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (68, 3, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (73, 5, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (67, 4, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (73, 5, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (73, 4, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (65, 3, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (67, 5, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (64, 4, ), ['Baik']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (66, 5, ), ['Rusak']::return_status;
+INSERT INTO public.detail_return (item_id, qty, status) VALUES (70, 2, ), ['Baik']::return_status;

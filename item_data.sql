@@ -1,0 +1,9 @@
+INSERT INTO public.items (status) VALUES ('Baik');
+INSERT INTO public.items (status) VALUES ('Kotor');
+INSERT INTO public.items (status) VALUES ('Baik');
+INSERT INTO public.items (status) VALUES ('Baik');
+INSERT INTO public.items (status) VALUES ('Baik');
+INSERT INTO public.items (status) VALUES ('Kotor');
+INSERT INTO public.items (status) VALUES ('Kotor');
+INSERT INTO public.items (status) VALUES ('Baik');
+INSERT INTO public.items (status) VALUES ('Baik');
