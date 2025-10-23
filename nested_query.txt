@@ -1,0 +1,162 @@
+--1. harga per kategori
+select c.ctg_name,
+	SUM(i.price) as Total_Harga
+from items i
+join categories c on i.category_id = c.id
+GROUP BY 
+    c.ctg_name 
+ORDER BY 
+    Total_Harga DESC;
+
+--2. total pendapatan per bulan
+SELECT 
+    TO_CHAR(r.rent_date, 'Month YYYY') AS bulan,
+    SUM(dr.qty * dr.unit_price) AS total_pendapatan
+FROM 
+    rents r
+JOIN 
+    detail_rent dr ON r.id = dr.rent_id
+GROUP BY 
+    TO_CHAR(r.rent_date, 'Month YYYY')
+ORDER BY 
+    MIN(r.rent_date);
+
+--3. pegwai yang menangani sewa paling banyak
+SELECT
+    e.id AS employee_id,
+    e.first_name || ' ' || e.last_name AS employee_name,
+    COUNT(r.id) AS total_transaksi
+FROM 
+    employees e
+JOIN 
+    rents r ON e.id = r.emp_id
+GROUP BY 
+    e.id, e.first_name || ' ' || e.last_name
+ORDER BY 
+    total_transaksi DESC;
+
+--4. barang yang masih disewa
+SELECT 
+    i.item_code,
+    i.name,
+    SUM(dr.qty) AS total_disewa
+FROM 
+    detail_rent dr
+JOIN 
+    items i ON dr.item_id = i.id
+JOIN 
+    rents r ON dr.rent_id = r.id
+LEFT JOIN 
+    returns ret ON r.id = ret.rent_id
+WHERE 
+    ret.rent_id IS NULL  -- artinya belum dikembalikan
+GROUP BY 
+    i.id, i.name
+ORDER BY 
+    total_disewa DESC;
+
+--5. sewa dengan harga paling tinggi
+SELECT 
+    r.rent_code,
+    r.rent_date,
+    c.first_name || ' ' || c.last_name AS customer_name,
+    e.first_name || ' ' || e.last_name AS employee_name,
+    SUM(dr.qty * dr.unit_price) AS total_harga
+FROM 
+    rents r
+JOIN 
+    detail_rent dr ON r.id = dr.rent_id
+JOIN 
+    customers c ON r.cust_id = c.id
+JOIN 
+    employees e ON r.emp_id = e.id
+GROUP BY 
+    r.id, r.rent_date, c.first_name, c.last_name, e.first_name, e.last_name
+ORDER BY 
+    total_harga ASC
+LIMIT 1;
+
+--6. total pendapatan per barang
+SELECT 
+    i.item_code,
+    i.name AS item_name,
+    SUM(dr.qty * dr.unit_price) AS total_pendapatan
+FROM detail_rent dr
+JOIN items i ON dr.item_id = i.id
+GROUP BY i.id, i.name
+ORDER BY total_pendapatan DESC;
+
+--7. Pelanggan yang paling banyak melakukan penyewaan
+SELECT 
+    c.cust_code ,
+    c.first_name || ' ' || c.last_name AS customer_name,
+    COUNT(r.id) AS total_penyewaan
+FROM rents r
+JOIN customers c ON r.cust_id = c.id
+GROUP BY c.cust_code, c.first_name, c.last_name
+ORDER BY total_penyewaan DESC
+LIMIT 1;
+
+--8. rata - rata lama penyewaaan
+SELECT 
+    ROUND(AVG(EXTRACT(EPOCH FROM (r.return_date - r.created_at)) / 86400), 2) AS averange_rent_period
+FROM rents r
+WHERE r.return_date IS NOT NULL;
+
+--9. item yang tidak pernah disewa
+SELECT 
+    i.item_code,
+    i.name,
+    i.category_id,
+    i.price
+FROM items i
+LEFT JOIN detail_rent dr ON i.id = dr.item_id
+WHERE dr.item_id IS null
+order by i.item_code asc;
+
+--10. item yang sudah dikembalikan
+SELECT 
+    i.item_code,
+    i.name,
+    dr.qty,
+    r.return_code,
+    r.actual_return
+FROM detail_return dr
+JOIN items i ON dr.item_id = i.id
+JOIN returns r ON r.id = dr.id
+WHERE r.actual_return IS NOT NULL;
+
+--11. supplier pemasok terbanyak
+SELECT 
+    s.sup_code,
+    s.name,
+    COUNT(p.id) AS total_pembelian
+FROM suppliers s
+JOIN purchases p ON s.id = p.supplier_id
+GROUP BY s.id, s.name
+ORDER BY total_pembelian desc 
+LIMIT 1;
+
+--12. supplier pemasok paling sedikit
+SELECT 
+    s.sup_code,
+    s.name,
+    COUNT(p.id) AS total_pembelian
+FROM suppliers s
+JOIN purchases p ON s.id = p.supplier_id
+GROUP BY s.id, s.name
+ORDER BY total_pembelian asc 
+LIMIT 1;
+
+--13. baju yang sering disewa
+SELECT 
+    i.item_code,
+    i.name,
+    SUM(dr.qty) AS total_disewa
+FROM items i
+JOIN detail_rent dr ON i.id = dr.item_id
+GROUP BY i.id, i.name
+ORDER BY total_disewa DESC
+LIMIT 1;
+
+
